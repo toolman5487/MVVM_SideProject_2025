@@ -13,7 +13,7 @@ import SnapKit
 class SigninView:UIViewController{
     
     private let headerLabel: UILabel = {
-        LabelFactory.build(text: "帳號登入", font: ThemeFont.bold(ofSize: 30))
+        LabelFactory.build(text: "帳號登入", font: ThemeFont.bold(ofSize: 24))
     }()
     
     private let horizentalLine:UIView = {
@@ -97,8 +97,11 @@ class SigninView:UIViewController{
         }
         
         signinContainView.addSubview(vStack)
-        textFieldVStack.snp.makeConstraints { make in
-            make.top.equalTo(horizentalLine.snp.bottom).offset(20)
+        vStack.setCustomSpacing(30, after: horizentalLine)
+        
+        signinButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(14)
+            make.trailing.equalToSuperview().offset(-14)
         }
         
         vStack.snp.makeConstraints { make in
