@@ -20,6 +20,7 @@ class SigninView:UIViewController{
         let tf = UITextField()
         tf.placeholder = "輸入 Email"
         tf.borderStyle = .roundedRect
+        tf.layer.cornerRadius = 10
         tf.autocapitalizationType = .none
         return tf
     }()
@@ -28,6 +29,7 @@ class SigninView:UIViewController{
         let tf = UITextField()
         tf.placeholder = "輸入密碼"
         tf.borderStyle = .roundedRect
+        tf.layer.cornerRadius = 10
         tf.isSecureTextEntry = true
         return tf
     }()
@@ -35,9 +37,9 @@ class SigninView:UIViewController{
     private let loginButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.setTitle("登入", for: .normal)
-        btn.backgroundColor = .systemBlue
+        btn.backgroundColor = .black
         btn.setTitleColor(.white, for: .normal)
-        btn.layer.cornerRadius = 5
+        btn.layer.cornerRadius = 10
         return btn
     }()
     
