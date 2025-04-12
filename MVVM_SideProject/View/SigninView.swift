@@ -8,12 +8,13 @@
 import Foundation
 import UIKit
 import Combine
+import CombineCocoa
 import SnapKit
 
 class SigninView:UIViewController{
     
     private let headerLabel: UILabel = {
-        LabelFactory.build(text: "帳號登入", font: ThemeFont.bold(ofSize: 24))
+        LabelFactory.build(text: "Login", font: ThemeFont.bold(ofSize: 24))
     }()
     
     private let horizentalLine:UIView = {
@@ -25,7 +26,7 @@ class SigninView:UIViewController{
     
     private let emailTextField: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "輸入 Email"
+        tf.placeholder = "Enter Email"
         tf.borderStyle = .roundedRect
         tf.layer.cornerRadius = 10
         tf.autocapitalizationType = .none
@@ -34,7 +35,7 @@ class SigninView:UIViewController{
     
     private let passwordTextField: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "輸入密碼"
+        tf.placeholder = "Enter Password"
         tf.borderStyle = .roundedRect
         tf.layer.cornerRadius = 10
         tf.isSecureTextEntry = true
@@ -54,7 +55,7 @@ class SigninView:UIViewController{
     
     private let signinButton: UIButton = {
         let btn = UIButton(type: .system)
-        btn.setTitle("登入", for: .normal)
+        btn.setTitle("Log In", for: .normal)
         btn.backgroundColor = .black
         btn.setTitleColor(.white, for: .normal)
         btn.layer.cornerRadius = 10
@@ -114,15 +115,31 @@ class SigninView:UIViewController{
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        layout()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-          view.addGestureRecognizer(tapGesture)
+    private var cancellables = Set<AnyCancellable>()
+    private let loginVM = LoginViewModel()
+    
+    private func bind(){
+        emailTextField.textPublisher
+            .compactMap{$0}
+            .assign(to: \.email , on: loginVM)
+            .store(in: &cancellables)
+        
+        passwordTextField.textPublisher
+            .compactMap {$0}
+            .assign(to: \.password, on: loginVM)
+            .store(in: &cancellables)
     }
     
     @objc func handleTap() {
         view.endEditing(true)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        layout()
+        bind()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        view.addGestureRecognizer(tapGesture)
     }
     
 }

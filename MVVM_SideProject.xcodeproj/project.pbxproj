@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1522DDCE2DAA664A00A1865D /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 1522DDCD2DAA664A00A1865D /* CombineCocoa */; };
 		15A69AFB2DA8EB8B00A91FDE /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 15A69AFA2DA8EB8B00A91FDE /* FirebaseAnalytics */; };
 		15A69AFD2DA8EB8B00A91FDE /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 15A69AFC2DA8EB8B00A91FDE /* FirebaseAnalyticsOnDeviceConversion */; };
 		15A69AFF2DA8EB8B00A91FDE /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 15A69AFE2DA8EB8B00A91FDE /* FirebaseAnalyticsWithoutAdIdSupport */; };
@@ -119,6 +120,7 @@
 				15A69B1D2DA8EB8B00A91FDE /* FirebaseMLModelDownloader in Frameworks */,
 				15A69B252DA8EB8B00A91FDE /* FirebaseStorage in Frameworks */,
 				15A69B092DA8EB8B00A91FDE /* FirebaseCore in Frameworks */,
+				1522DDCE2DAA664A00A1865D /* CombineCocoa in Frameworks */,
 				15A69AFD2DA8EB8B00A91FDE /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -206,6 +208,7 @@
 				15A69B282DA8EB8B00A91FDE /* FirebaseVertexAI */,
 				15A69B2B2DA8F1B300A91FDE /* GoogleSignIn */,
 				15A69B332DA8FE8F00A91FDE /* SnapKit */,
+				1522DDCD2DAA664A00A1865D /* CombineCocoa */,
 			);
 			productName = MVVM_SideProject;
 			productReference = 15A69AC32DA8C9DB00A91FDE /* MVVM_SideProject.app */;
@@ -293,6 +296,7 @@
 				15A69AF92DA8EB8B00A91FDE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				15A69B2A2DA8F1B300A91FDE /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				15A69B322DA8FE8F00A91FDE /* XCRemoteSwiftPackageReference "SnapKit" */,
+				1522DDCC2DAA664A00A1865D /* XCRemoteSwiftPackageReference "CombineCocoa" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 15A69AC42DA8C9DB00A91FDE /* Products */;
@@ -380,8 +384,10 @@
 				INFOPLIST_FILE = MVVM_SideProject/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -407,8 +413,10 @@
 				INFOPLIST_FILE = MVVM_SideProject/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -657,6 +665,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1522DDCC2DAA664A00A1865D /* XCRemoteSwiftPackageReference "CombineCocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CombineCommunity/CombineCocoa";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.1;
+			};
+		};
 		15A69AF92DA8EB8B00A91FDE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -684,6 +700,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1522DDCD2DAA664A00A1865D /* CombineCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1522DDCC2DAA664A00A1865D /* XCRemoteSwiftPackageReference "CombineCocoa" */;
+			productName = CombineCocoa;
+		};
 		15A69AFA2DA8EB8B00A91FDE /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 15A69AF92DA8EB8B00A91FDE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
