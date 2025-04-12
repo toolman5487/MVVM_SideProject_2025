@@ -6,3 +6,15 @@
 //
 
 import Foundation
+import FirebaseAuth
+import Combine
+
+protocol AuthServiceProtocol {
+    func signIn(email: String, password: String) -> AnyPublisher<Void, Error>
+}
+
+class FirebaseAuthService: AuthServiceProtocol {
+    func signIn(email: String, password: String) -> AnyPublisher<Void, any Error> {
+        
+    }
+}

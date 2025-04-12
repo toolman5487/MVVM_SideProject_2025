@@ -19,9 +19,6 @@ class SigninView:UIViewController{
     private let horizentalLine:UIView = {
         let view = UIView()
         view.backgroundColor =  .black
-        view.snp.makeConstraints { make in
-            make.height.equalTo(2)
-        }
         view.addCornerRadius(radius: 2)
         return view
     }()
@@ -97,6 +94,11 @@ class SigninView:UIViewController{
         }
         
         signinContainView.addSubview(vStack)
+        
+        horizentalLine.snp.makeConstraints { make in
+            make.height.equalTo(2)
+        }
+        
         vStack.setCustomSpacing(30, after: horizentalLine)
         
         signinButton.snp.makeConstraints { make in
