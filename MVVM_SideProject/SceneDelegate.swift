@@ -34,6 +34,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
     }
     
+    
+    func switchToHomeViewController() {
+        let homeVC = HomeView()
+        let navController = UINavigationController(rootViewController: homeVC)
+        guard let window = self.window else { return }
+        UIView.transition(with: window,
+                          duration: 0.5,
+                          options: .transitionCrossDissolve,
+                          animations: {
+                              window.rootViewController = navController
+                          },
+                          completion: nil)
+    }
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

@@ -143,19 +143,28 @@ class SigninView:UIViewController{
             }.store(in: &cancellables)
         
         loginVM.$isAuthenticated
-            .filter { $0 == true}
+            .filter { $0 == true }
             .receive(on: DispatchQueue.main)
-            .sink { isAuthenticated in
+            .sink { [weak self] _ in
                 print("登入成功")
-                // 在這裡執行頁面跳轉或其他登入成功後的邏輯
-            }.store(in: &cancellables)
+                if let user = self?.loginVM.getCurrentUser() {
+                    print("使用者 UID: \(user.uid)")
+                    print("Email: \(user.email ?? "無 Email")")
+                    print("Display Name: \(user.displayName ?? "無姓名")")
+                    if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                        sceneDelegate.switchToHomeViewController()
+                    }
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func showAlert(message: String) {
-           let alert = UIAlertController(title: "Login Error", message: message, preferredStyle: .alert)
-           alert.addAction(UIAlertAction(title: "OK", style: .default))
-           present(alert, animated: true)
-       }
+        let alert = UIAlertController(title: "Login Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+    
     
     @objc func handleTap() {
         view.endEditing(true)

@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import FirebaseAuth
 
+
 class LoginViewModel:ObservableObject{
     
     @Published var email:String = ""
@@ -36,6 +37,10 @@ class LoginViewModel:ObservableObject{
                 self?.errorMessage = nil
             }
             .store(in: &cancellables)
+    }
+    
+    func getCurrentUser() -> User? {
+        return Auth.auth().currentUser
     }
     
 }
