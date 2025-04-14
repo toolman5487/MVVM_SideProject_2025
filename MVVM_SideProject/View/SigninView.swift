@@ -170,12 +170,24 @@ class SigninView:UIViewController{
         view.endEditing(true)
     }
     
+    private func navigationSetting(){
+        navigationItem.title = "Log In"
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.navigationBar.titleTextAttributes = [
+            .foregroundColor: UIColor.white,
+            .font: UIFont.systemFont(ofSize: 30, weight: .bold)
+        ]
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         layout()
         bind()
+        navigationSetting()
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         view.addGestureRecognizer(tapGesture)
+        
     }
     
 }

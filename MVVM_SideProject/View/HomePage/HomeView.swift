@@ -30,9 +30,20 @@ class HomeView:UIViewController{
         }
     }
     
+    private func navigationSetting(){
+        navigationItem.title = "Home"
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.navigationBar.titleTextAttributes = [
+            .foregroundColor: UIColor.white,
+            .font: UIFont.systemFont(ofSize: 30, weight: .bold)
+        ]
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         layout()
+        navigationSetting()
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         
     }
 }

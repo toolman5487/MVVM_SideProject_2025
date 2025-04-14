@@ -20,12 +20,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let loginVC = SigninView()
         let navController = UINavigationController(rootViewController: loginVC)
         
+//        let appearance = UINavigationBarAppearance()
+//        appearance.configureWithOpaqueBackground()
+//        appearance.backgroundColor = UIColor.black
+//        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+//        navController.navigationBar.standardAppearance = appearance
+//        navController.navigationBar.scrollEdgeAppearance = appearance
+        
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor.black
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        navController.navigationBar.standardAppearance = appearance
-        navController.navigationBar.scrollEdgeAppearance = appearance
+        appearance.backgroundColor = UIColor.orange
+        appearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
+        let buttonBarAppearance = UIBarButtonItem.appearance()
+        buttonBarAppearance.tintColor = .white
+        
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
         
         window = UIWindow(windowScene: windowScene)
         window?.backgroundColor = .white
