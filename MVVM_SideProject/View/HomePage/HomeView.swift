@@ -12,6 +12,9 @@ import Combine
 
 class HomeView:UIViewController{
     
+    private let homeViewModel = HomeViewModel()
+    private var cancellables: Set<AnyCancellable> = []
+    
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -73,9 +76,34 @@ class HomeView:UIViewController{
         navigationItem.title = "首頁"
     }
     
+    func bind(){
+        homeViewModel.$homeModel
+            .compactMap {$0}
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] model in
+                self?.nameLabel.text = model.user.displayName ?? "使用者名稱"
+                self?.emailLabel.text = model.user.email ?? "使用者 Email"
+                if let photoURL = model.user.photoURL{
+                    self?.loadImage(from: photoURL)
+                }
+            }.store(in: &cancellables)
+    }
+    
+    private func loadImage(from url: URL){
+        URLSession.shared.dataTask(with: url){ data,response,error in
+            if let data = data, let image = UIImage(data: data){
+                DispatchQueue.main.async {
+                    self.avatarImageView.image = image
+                }
+            }else{return}
+        }.resume()
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         layout()
+        bind()
         setupNavigationBar()
     }
 }
