@@ -14,7 +14,7 @@ import SnapKit
 class SigninView:UIViewController{
     
     private let headerLabel: UILabel = {
-        LabelFactory.build(text: "Login", font: ThemeFont.bold(ofSize: 24))
+        LabelFactory.build(text: "帳號登入", font: ThemeFont.bold(ofSize: 24))
     }()
     
     private let horizentalLine:UIView = {
@@ -26,19 +26,21 @@ class SigninView:UIViewController{
     
     private let emailTextField: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Enter Email"
+        tf.placeholder = "輸入 Email"
         tf.borderStyle = .roundedRect
         tf.layer.cornerRadius = 10
         tf.autocapitalizationType = .none
+        tf.text = "willy548798@gmail.com"
         return tf
     }()
     
     private let passwordTextField: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Enter Password"
+        tf.placeholder = "輸入密碼"
         tf.borderStyle = .roundedRect
         tf.layer.cornerRadius = 10
         tf.isSecureTextEntry = true
+        tf.text = "willy861031"
         return tf
     }()
     
@@ -55,7 +57,7 @@ class SigninView:UIViewController{
     
     private let signinButton: UIButton = {
         let btn = UIButton(type: .system)
-        btn.setTitle("Log In", for: .normal)
+        btn.setTitle("確認", for: .normal)
         btn.backgroundColor = .black
         btn.setTitleColor(.white, for: .normal)
         btn.layer.cornerRadius = 10
@@ -170,20 +172,10 @@ class SigninView:UIViewController{
         view.endEditing(true)
     }
     
-    private func navigationSetting(){
-        navigationItem.title = "Log In"
-        navigationController?.navigationBar.prefersLargeTitles = false
-        navigationController?.navigationBar.titleTextAttributes = [
-            .foregroundColor: UIColor.white,
-            .font: UIFont.systemFont(ofSize: 30, weight: .bold)
-        ]
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         layout()
         bind()
-        navigationSetting()
         self.navigationController?.navigationBar.prefersLargeTitles = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         view.addGestureRecognizer(tapGesture)

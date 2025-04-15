@@ -12,38 +12,70 @@ import Combine
 
 class HomeView:UIViewController{
     
-    private let welcomeLabel: UILabel = {
+    private let avatarImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 40
+        imageView.image = UIImage(systemName: "person.crop.circle")
+        return imageView
+    }()
+    
+    private let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Welcome to the Home Page!"
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 32, weight: .semibold)
+        label.textColor = .black
+        label.numberOfLines = 1
         label.textAlignment = .center
+        label.text = "User Name"
         return label
     }()
     
+    private let emailLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        label.textColor = .gray
+        label.numberOfLines = 1
+        label.textAlignment = .center
+        label.text = "User Email"
+        return label
+    }()
+    
+    private lazy var vUserStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [ nameLabel, emailLabel])
+        stackView.axis = .vertical
+        stackView.spacing = 5
+        stackView.distribution = .fillProportionally
+        return stackView
+    }()
+    
+    
     private func layout(){
-        view.backgroundColor = .white
-        view.addSubview(welcomeLabel)
+        view.addSubview(avatarImageView)
+        view.addSubview(vUserStackView)
         
-        welcomeLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
+        avatarImageView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+            make.centerX.equalToSuperview()
+            make.width.height.equalTo(80)
+        }
+        
+        vUserStackView.snp.makeConstraints { make in
+            make.top.equalTo(avatarImageView.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
         }
+        
     }
     
-    private func navigationSetting(){
-        navigationItem.title = "Home"
-        navigationController?.navigationBar.prefersLargeTitles = false
-        navigationController?.navigationBar.titleTextAttributes = [
-            .foregroundColor: UIColor.white,
-            .font: UIFont.systemFont(ofSize: 30, weight: .bold)
-        ]
+    private func setupNavigationBar() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
+        navigationItem.title = "首頁"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         layout()
-        navigationSetting()
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        
+        setupNavigationBar()
     }
 }
