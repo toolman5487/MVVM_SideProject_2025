@@ -6,3 +6,18 @@
 //
 
 import Foundation
+import UIKit
+
+class TipCalculatorView:UIViewController{
+    
+    private func setupNavigationBar() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
+        navigationItem.title = "服務費計算器"
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupNavigationBar()
+    }
+}

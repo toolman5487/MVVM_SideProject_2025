@@ -28,18 +28,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     
-    func switchToHomeViewController() {
-        let homeVC = HomeView()
-        let navController = UINavigationController(rootViewController: homeVC)
-        guard let window = self.window else { return }
-        UIView.transition(with: window,
-                          duration: 0.5,
-                          options: .transitionCrossDissolve,
-                          animations: {
-                              window.rootViewController = navController
-                          },
-                          completion: nil)
-    }
+    func switchToMainTabBarController() {
+          let mainTabBarController = MainTabBarController()
+          guard let window = self.window else { return }
+          UIView.transition(with: window,
+                            duration: 0.5,
+                            options: .transitionCrossDissolve,
+                            animations: {
+                                window.rootViewController = mainTabBarController
+                            },
+                            completion: nil)
+      }
     
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

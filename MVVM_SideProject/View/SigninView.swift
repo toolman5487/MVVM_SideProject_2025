@@ -155,7 +155,7 @@ class SigninView:UIViewController{
                     print("Display Name: \(user.displayName ?? "無姓名")")
                     print("PhotoRL: \(user.photoURL ?? URL(string: "No_URL")!)")
                     if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                        sceneDelegate.switchToHomeViewController()
+                        sceneDelegate.switchToMainTabBarController()
                     }
                 }
             }

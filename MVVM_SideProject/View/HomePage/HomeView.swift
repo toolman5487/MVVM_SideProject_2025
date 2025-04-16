@@ -26,17 +26,17 @@ class HomeView:UIViewController{
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 32, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         label.textColor = .black
         label.numberOfLines = 1
         label.textAlignment = .center
-        label.text = "User Name"
+        label.text = "User ID"
         return label
     }()
     
     private let emailLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 24, weight: .regular)
         label.textColor = .gray
         label.numberOfLines = 1
         label.textAlignment = .center
@@ -81,7 +81,7 @@ class HomeView:UIViewController{
             .compactMap {$0}
             .receive(on: DispatchQueue.main)
             .sink { [weak self] model in
-                self?.nameLabel.text = model.user.displayName ?? "使用者名稱"
+                self?.nameLabel.text = model.user.uid ?? "使用者ID"
                 self?.emailLabel.text = model.user.email ?? "使用者 Email"
                 if let photoURL = model.user.photoURL{
                     self?.loadImage(from: photoURL)
