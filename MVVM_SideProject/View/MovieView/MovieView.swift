@@ -28,6 +28,7 @@ class MovieView:UIViewController{
         let searchbar = UISearchBar()
         searchbar.delegate = self
         searchbar.translatesAutoresizingMaskIntoConstraints = false
+        searchbar.searchBarStyle = .minimal
         searchbar.placeholder = "Search Movie"
         return searchbar
     }()
@@ -75,12 +76,18 @@ class MovieView:UIViewController{
             }.store(in: &cancellables)
     }
     
+    @objc func handleTap() {
+        view.endEditing(true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         layout()
         movieTableView.register(UITableViewCell.self, forCellReuseIdentifier: "MovieTableViewcell")
         bind()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        view.addGestureRecognizer(tapGesture)
     }
 }
 
@@ -94,6 +101,7 @@ extension MovieView:UITableViewDelegate, UITableViewDataSource{
         let movie = movieListViewModel.movies[indexPath.row]
         var contant = cell.defaultContentConfiguration()
         contant.text = movie.title
+        contant.secondaryText = movie.year
         cell.contentConfiguration = contant
         return cell
     }
