@@ -23,7 +23,7 @@ class MainTabBarController:UITabBarController{
                                                    image: UIImage(systemName: "dollarsign.circle.fill"),
                                                    tag: 1)
         
-        let movieVC = MovieView()
+        let movieVC = MovieView(movieListViewModel: MovieListViewModel(httpClient: MovieHTTPClient()))
         let movieNav = UINavigationController(rootViewController: movieVC)
         movieNav.tabBarItem = UITabBarItem(title: "電影",
                                                    image: UIImage(systemName: "film.circle.fill"),
