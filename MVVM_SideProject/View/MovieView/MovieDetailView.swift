@@ -165,10 +165,11 @@ class MovieDetailView:UIViewController{
         }
         
         let ratingUnderline = UIView()
-        ratingUnderline.backgroundColor = .separator
+        ratingUnderline.backgroundColor = .black
         view.addSubview(ratingUnderline)
+        
         ratingUnderline.snp.makeConstraints { make in
-            make.top.equalTo(ratingPopularityStack.snp.bottom).offset(10)
+            make.top.equalTo(ratingPopularityStack.snp.bottom).offset(16)
             make.height.equalTo(1)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
@@ -176,13 +177,13 @@ class MovieDetailView:UIViewController{
 
         view.addSubview(overviewTitleLabel)
         overviewTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(ratingUnderline.snp.bottom).offset(10)
+            make.top.equalTo(ratingUnderline.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(20)
         }
 
         view.addSubview(infoStack)
         infoStack.snp.makeConstraints { make in
-            make.top.equalTo(overviewTitleLabel.snp.bottom).offset(8)
+            make.top.equalTo(overviewTitleLabel.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(20)
         }
         

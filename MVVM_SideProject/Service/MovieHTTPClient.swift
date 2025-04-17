@@ -15,7 +15,7 @@ enum MovieError: Error {
 
 class MovieHTTPClient{
     
-    private let apiKey = "TMDB_API_KEY"
+    private let apiKey = "Your api key"
     private let baseURL = "https://api.themoviedb.org/3"
     
     func fetchMovies(search:String) -> AnyPublisher<[Movie], Error> {
@@ -43,7 +43,7 @@ class MovieHTTPClient{
  
  func fetchMovies(search:String) -> AnyPublisher<[Movie], Error> {
      guard let encodedSearch = search.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-           let movieListURL = URL(string: "https://www.omdbapi.com/?s=\(encodedSearch)&apikey=b2c1ea18") else{
+           let movieListURL = URL(string: "https://www.omdbapi.com/?s=\(encodedSearch)&apikey= ") else{
          return Fail(error: MovieError.urlError).eraseToAnyPublisher()
      }
      return  URLSession.shared.dataTaskPublisher(for: movieListURL)
