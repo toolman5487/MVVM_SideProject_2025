@@ -15,7 +15,7 @@ enum MovieError: Error {
 
 class MovieHTTPClient{
     
-    private let apiKey = "a704c1ee4f1214cebbb5a43c01986dbb"
+    private let apiKey = "TMDB_API_KEY"
     private let baseURL = "https://api.themoviedb.org/3"
     
     func fetchMovies(search:String) -> AnyPublisher<[Movie], Error> {
