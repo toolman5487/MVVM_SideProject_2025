@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1522DDCE2DAA664A00A1865D /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 1522DDCD2DAA664A00A1865D /* CombineCocoa */; };
+		159865CB2DB0F5EF00957253 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 159865CA2DB0F5EF00957253 /* SDWebImage */; };
 		15A69AFB2DA8EB8B00A91FDE /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 15A69AFA2DA8EB8B00A91FDE /* FirebaseAnalytics */; };
 		15A69AFD2DA8EB8B00A91FDE /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 15A69AFC2DA8EB8B00A91FDE /* FirebaseAnalyticsOnDeviceConversion */; };
 		15A69AFF2DA8EB8B00A91FDE /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 15A69AFE2DA8EB8B00A91FDE /* FirebaseAnalyticsWithoutAdIdSupport */; };
@@ -105,6 +106,7 @@
 				15A69B0F2DA8EB8B00A91FDE /* FirebaseDynamicLinks in Frameworks */,
 				15A69B012DA8EB8B00A91FDE /* FirebaseAppCheck in Frameworks */,
 				15A69B052DA8EB8B00A91FDE /* FirebaseAuth in Frameworks */,
+				159865CB2DB0F5EF00957253 /* SDWebImage in Frameworks */,
 				15A69AFB2DA8EB8B00A91FDE /* FirebaseAnalytics in Frameworks */,
 				15A69B112DA8EB8B00A91FDE /* FirebaseFirestore in Frameworks */,
 				15A69B1F2DA8EB8B00A91FDE /* FirebaseMessaging in Frameworks */,
@@ -209,6 +211,7 @@
 				15A69B2B2DA8F1B300A91FDE /* GoogleSignIn */,
 				15A69B332DA8FE8F00A91FDE /* SnapKit */,
 				1522DDCD2DAA664A00A1865D /* CombineCocoa */,
+				159865CA2DB0F5EF00957253 /* SDWebImage */,
 			);
 			productName = MVVM_SideProject;
 			productReference = 15A69AC32DA8C9DB00A91FDE /* MVVM_SideProject.app */;
@@ -297,6 +300,7 @@
 				15A69B2A2DA8F1B300A91FDE /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				15A69B322DA8FE8F00A91FDE /* XCRemoteSwiftPackageReference "SnapKit" */,
 				1522DDCC2DAA664A00A1865D /* XCRemoteSwiftPackageReference "CombineCocoa" */,
+				159865C92DB0F5EF00957253 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 15A69AC42DA8C9DB00A91FDE /* Products */;
@@ -673,6 +677,14 @@
 				minimumVersion = 0.4.1;
 			};
 		};
+		159865C92DB0F5EF00957253 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.21.0;
+			};
+		};
 		15A69AF92DA8EB8B00A91FDE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -704,6 +716,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1522DDCC2DAA664A00A1865D /* XCRemoteSwiftPackageReference "CombineCocoa" */;
 			productName = CombineCocoa;
+		};
+		159865CA2DB0F5EF00957253 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 159865C92DB0F5EF00957253 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
 		};
 		15A69AFA2DA8EB8B00A91FDE /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
