@@ -22,7 +22,7 @@ class MovieListViewModel {
     }
     
     func loadMovies(search:String) {
-        httpClient.fetchMovies(search: search)
+        httpClient.fetchSearchMovies(search: search)
             .sink { [weak self]completion in
                 switch completion {
                 case .finished:
@@ -33,7 +33,6 @@ class MovieListViewModel {
             } receiveValue: {[weak self] movies in
                 self?.movies = movies
             }.store(in: &cancellables)
-
     }
     
     func setupSearchPublisher(){
