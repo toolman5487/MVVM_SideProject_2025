@@ -11,30 +11,26 @@ import SnapKit
 
 class UpcomingMoviesCollectionView: UIView {
     
+    let collectionView: UICollectionView
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "近期上映"
+        let text = "近期上映 "
+        let attrs: [NSAttributedString.Key: Any] = [
+            .font: ThemeFont.bold(ofSize: 20),
+            .foregroundColor: UIColor.label
+        ]
+        let attributed = NSMutableAttributedString(string: text, attributes: attrs)
+        let attachment = NSTextAttachment()
+        let image = UIImage(systemName: "chevron.right")?.withTintColor(.label)
+        attachment.image = image
+        attributed.append(NSAttributedString(attachment: attachment))
+        label.attributedText = attributed
+        label.numberOfLines = 1
         label.font = ThemeFont.bold(ofSize: 20)
         label.textColor = .label
         return label
     }()
-    
-    private let arrowImageView: UIImageView = {
-        let iv = UIImageView(image: UIImage(systemName: "chevron.right"))
-        iv.contentMode = .scaleAspectFit
-        iv.tintColor = .label
-        return iv
-    }()
-    
-    private lazy var headerStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [titleLabel, arrowImageView])
-        stack.axis = .horizontal
-        stack.alignment = .center
-        stack.distribution = .equalSpacing
-        return stack
-    }()
-    
-    let collectionView: UICollectionView
     
     private static func makeCollectionView() -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
@@ -55,8 +51,8 @@ class UpcomingMoviesCollectionView: UIView {
         super.init(frame: frame)
         collectionView.dataSource = self
         collectionView.delegate   = self
-        collectionView.register(UICollectionViewCell.self,
-                                forCellWithReuseIdentifier: "upcomingMovieCollectionViewCell")
+        collectionView.register(UpcomingMovieCell.self,
+                                forCellWithReuseIdentifier: "UpcomingMovieCell")
         setupViews()
         
     }
@@ -66,20 +62,17 @@ class UpcomingMoviesCollectionView: UIView {
     }
     
     private func setupViews() {
-        
-        addSubview(headerStack)
-        headerStack.snp.makeConstraints { make in
+        addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(8)
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(28)
+            make.leading.equalToSuperview().inset(20)
         }
         
         addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(headerStack.snp.bottom).offset(8)
+            make.top.equalTo(titleLabel.snp.bottom).offset(4)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(210)
-            make.bottom.equalToSuperview().inset(8)
+            make.height.equalTo(180)
         }
     }
 }
@@ -92,23 +85,14 @@ extension UpcomingMoviesCollectionView: UICollectionViewDataSource, UICollection
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "upcomingMovieCollectionViewCell",
-            for: indexPath)
-        cell.contentView.subviews.forEach { $0.removeFromSuperview() }
-        
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.clipsToBounds = true
-        cell.contentView.addSubview(imageView)
-        imageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        imageView.image = UIImage(systemName: "film")
-        
+            withReuseIdentifier: "UpcomingMovieCell",
+            for: indexPath) as! UpcomingMovieCell
+        cell.imageView.image = UIImage(systemName: "film")
+        cell.imageView.tintColor = .white
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 140, height: 210)
+        return CGSize(width: 240, height: 180)
     }
 }

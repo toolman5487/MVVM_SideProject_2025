@@ -24,10 +24,9 @@ class HomeView:UIViewController{
         return imageView
     }()
     
-    private let nameLabel: UILabel = {
+    private let idLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
-        label.textColor = .black
         label.numberOfLines = 1
         label.textAlignment = .center
         label.text = "User ID"
@@ -45,7 +44,7 @@ class HomeView:UIViewController{
     }()
     
     private lazy var vUserStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [ nameLabel, emailLabel])
+        let stackView = UIStackView(arrangedSubviews: [ idLabel, emailLabel])
         stackView.axis = .vertical
         stackView.spacing = 5
         stackView.distribution = .fillProportionally
@@ -81,7 +80,7 @@ class HomeView:UIViewController{
             .compactMap {$0}
             .receive(on: DispatchQueue.main)
             .sink { [weak self] model in
-                self?.nameLabel.text = model.user.uid ?? "使用者ID"
+                self?.idLabel.text = model.user.uid ?? "使用者ID"
                 self?.emailLabel.text = model.user.email ?? "使用者 Email"
                 if let photoURL = model.user.photoURL{
                     self?.loadImage(from: photoURL)
