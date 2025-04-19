@@ -14,7 +14,10 @@ import SnapKit
 class SigninView:UIViewController{
     
     private let headerLabel: UILabel = {
-        LabelFactory.build(text: "帳號登入", font: ThemeFont.bold(ofSize: 24))
+        let label = UILabel()
+        label.text = "登入"
+        label.font = UIFont.boldSystemFont(ofSize: 24)
+        return label
     }()
     
     private let horizentalLine:UIView = {
@@ -25,23 +28,23 @@ class SigninView:UIViewController{
     }()
     
     private let emailTextField: UITextField = {
-        let tf = UITextField()
-        tf.placeholder = "輸入 Email"
-        tf.borderStyle = .roundedRect
-        tf.layer.cornerRadius = 10
-        tf.autocapitalizationType = .none
-        tf.text = "willy548798@gmail.com"
-        return tf
+        let textField = UITextField()
+        textField.placeholder = "輸入 Email"
+        textField.borderStyle = .roundedRect
+        textField.layer.cornerRadius = 10
+        textField.autocapitalizationType = .none
+        textField.text = "willy548798@gmail.com"
+        return textField
     }()
     
     private let passwordTextField: UITextField = {
-        let tf = UITextField()
-        tf.placeholder = "輸入密碼"
-        tf.borderStyle = .roundedRect
-        tf.layer.cornerRadius = 10
-        tf.isSecureTextEntry = true
-        tf.text = "willy861031"
-        return tf
+        let textField = UITextField()
+        textField.placeholder = "輸入密碼"
+        textField.borderStyle = .roundedRect
+        textField.layer.cornerRadius = 10
+        textField.isSecureTextEntry = true
+        textField.text = "willy861031"
+        return textField
     }()
     
     private lazy var textFieldVStack: UIStackView = {
@@ -67,53 +70,35 @@ class SigninView:UIViewController{
     private lazy var vStack: UIStackView = {
         let stack  = UIStackView(arrangedSubviews: [
             headerLabel,
-            horizentalLine,
             textFieldVStack,
             signinButton
         ])
         stack.axis = .vertical
         stack.spacing = 8
+        stack.alignment = .center
+        stack.backgroundColor = .secondarySystemBackground
+        stack.layer.cornerRadius = 10
+        stack.layer.masksToBounds = true
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         return stack
     }()
     
-    private let signinContainView:UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.addCornerRadius(radius: 10.0)
-        view.addShadow(
-            offset: CGSize(width: 0, height: 3),
-            color: UIColor.black,
-            radius: 12.0,
-            opacity: 0.1)
-        return view
-    }()
-    
     private func layout(){
-        view.addSubview(signinContainView)
-        signinContainView.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalTo(view.snp.leading).offset(14)
-            make.trailing.equalTo(view.snp.trailing).offset(-14)
-        }
-        
-        signinContainView.addSubview(vStack)
-        
-        horizentalLine.snp.makeConstraints { make in
-            make.height.equalTo(2)
-        }
-        
-        vStack.setCustomSpacing(30, after: horizentalLine)
-        
+        view.addSubview(vStack)
         signinButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(14)
             make.trailing.equalToSuperview().offset(-14)
         }
-        
-        vStack.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(14)
-            make.bottom.equalToSuperview().offset(-14)
+
+        vStack.snp.remakeConstraints { make in
+            make.centerY.equalToSuperview()
             make.leading.equalToSuperview().offset(14)
             make.trailing.equalToSuperview().offset(-14)
+        }
+        
+        textFieldVStack.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(16)
         }
     }
     
@@ -168,6 +153,12 @@ class SigninView:UIViewController{
         present(alert, animated: true)
     }
     
+    private func setupNavigationBar() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
+        navigationItem.title = "登入/註冊"
+    }
+    
     
     @objc func handleTap() {
         view.endEditing(true)
@@ -177,6 +168,7 @@ class SigninView:UIViewController{
         super.viewDidLoad()
         layout()
         bind()
+        setupNavigationBar()
         self.navigationController?.navigationBar.prefersLargeTitles = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         view.addGestureRecognizer(tapGesture)

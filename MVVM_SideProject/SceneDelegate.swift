@@ -21,7 +21,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navController = UINavigationController(rootViewController: loginVC)
         
         window = UIWindow(windowScene: windowScene)
-        window?.backgroundColor = .white
         window?.rootViewController = navController
         window?.overrideUserInterfaceStyle = .dark
         window?.makeKeyAndVisible()

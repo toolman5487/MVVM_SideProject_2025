@@ -21,6 +21,7 @@ class HomeView:UIViewController{
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 40
         imageView.image = UIImage(systemName: "person.crop.circle")
+        imageView.tintColor = .white
         return imageView
     }()
     
@@ -44,11 +45,16 @@ class HomeView:UIViewController{
     }()
     
     private lazy var vUserStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [ idLabel, emailLabel])
-        stackView.axis = .vertical
-        stackView.spacing = 5
-        stackView.distribution = .fillProportionally
-        return stackView
+        let stack = UIStackView(arrangedSubviews: [ idLabel, emailLabel])
+        stack.axis = .vertical
+        stack.spacing = 5
+        stack.distribution = .fillProportionally
+        stack.backgroundColor = .secondarySystemBackground
+        stack.layer.cornerRadius = 10
+        stack.layer.masksToBounds = true
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        return stack
     }()
     
     
@@ -59,12 +65,14 @@ class HomeView:UIViewController{
         avatarImageView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
             make.centerX.equalToSuperview()
-            make.width.height.equalTo(80)
+            make.width.height.equalTo(120)
         }
         
         vUserStackView.snp.makeConstraints { make in
-            make.top.equalTo(avatarImageView.snp.bottom).offset(10)
+            make.top.equalTo(avatarImageView.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(16)
+            
         }
         
     }

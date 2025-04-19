@@ -120,6 +120,7 @@ class MovieDetailView:UIViewController{
         imageView.layer.cornerRadius = 8
         imageView.layer.masksToBounds = true
         imageView.image = UIImage(systemName: "film.stack.fill")
+        imageView.tintColor = .white
         return imageView
     }()
     private let overviewLabel: UILabel = {
