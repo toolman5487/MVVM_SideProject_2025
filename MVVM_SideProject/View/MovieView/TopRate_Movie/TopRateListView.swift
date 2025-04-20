@@ -1,21 +1,21 @@
 //
-//  UpcomingMoviesCollectionView.swift
+//  TopRateListView.swift
 //  MVVM_SideProject
 //
-//  Created by Willy Hsu on 2025/4/18.
+//  Created by Willy Hsu on 2025/4/20.
 //
 
 import Foundation
 import UIKit
 import SnapKit
 
-class UpcomingMoviesCollectionView: UIView {
+class TopRateListView: UIView {
     
     let collectionView: UICollectionView
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        let text = "準備上映"
+        let text = "一致好評"
         let attrs: [NSAttributedString.Key: Any] = [
             .font: ThemeFont.bold(ofSize: 20),
             .foregroundColor: UIColor.label
@@ -47,12 +47,12 @@ class UpcomingMoviesCollectionView: UIView {
     }
     
     override init(frame: CGRect) {
-        collectionView = UpcomingMoviesCollectionView.makeCollectionView()
+        collectionView = TopRateListView.makeCollectionView()
         super.init(frame: frame)
         collectionView.dataSource = self
         collectionView.delegate   = self
-        collectionView.register(UpcomingMovieCell.self,
-                                forCellWithReuseIdentifier: "UpcomingMovieCell")
+        collectionView.register(TopRateMovieCell.self,
+                                forCellWithReuseIdentifier: "TopRateMovieCell")
         setupViews()
         
     }
@@ -78,15 +78,15 @@ class UpcomingMoviesCollectionView: UIView {
 }
 
 
-extension UpcomingMoviesCollectionView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension TopRateListView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "UpcomingMovieCell",
-            for: indexPath) as! UpcomingMovieCell
+            withReuseIdentifier: "TopRateMovieCell",
+            for: indexPath) as! TopRateMovieCell
         cell.imageView.image = UIImage(systemName: "film")
         cell.imageView.tintColor = .label
         return cell

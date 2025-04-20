@@ -59,19 +59,18 @@ class SigninView:UIViewController{
     }()
     
     private let signinButton: UIButton = {
-        let btn = UIButton(type: .system)
-        btn.setTitle("確認", for: .normal)
-        btn.backgroundColor = .black
-        btn.setTitleColor(.white, for: .normal)
-        btn.layer.cornerRadius = 10
-        return btn
+        let button = UIButton(type: .system)
+        button.setTitle("確認", for: .normal)
+        button.setTitleColor(.label, for: .normal)
+        button.layer.cornerRadius = 10
+        button.backgroundColor = .secondarySystemBackground
+        return button
     }()
     
     private lazy var vStack: UIStackView = {
         let stack  = UIStackView(arrangedSubviews: [
             headerLabel,
             textFieldVStack,
-            signinButton
         ])
         stack.axis = .vertical
         stack.spacing = 8
@@ -86,19 +85,20 @@ class SigninView:UIViewController{
     
     private func layout(){
         view.addSubview(vStack)
-        signinButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(14)
-            make.trailing.equalToSuperview().offset(-14)
-        }
-
         vStack.snp.remakeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview().offset(14)
             make.trailing.equalToSuperview().offset(-14)
         }
-        
         textFieldVStack.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
+        }
+        
+        view.addSubview(signinButton)
+        signinButton.snp.makeConstraints { make in
+            make.top.equalTo(vStack.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(48)
         }
     }
     

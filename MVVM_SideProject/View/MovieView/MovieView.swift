@@ -12,7 +12,12 @@ import SDWebImage
 
 class MovieView: UIViewController {
     
+    private let scrollView = UIScrollView()
+    
     private let upcomingMoviesView = UpcomingMoviesCollectionView()
+    private let nowPlayingListView = NowPlayingListView()
+    private let popularListView = PopularListView()
+    private let topRateListView = TopRateListView()
     
     private let movieListViewModel: MovieListViewModel
     private var cancellables: Set<AnyCancellable> = []
@@ -35,13 +40,43 @@ class MovieView: UIViewController {
     }
     
     func layout() {
-        view.addSubview(upcomingMoviesView)
+        view.addSubview(scrollView)
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
         
-        upcomingMoviesView.snp.makeConstraints { make in
-                make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-                make.leading.trailing.equalToSuperview()
-                make.height.equalTo(250)
-            }
+        scrollView.addSubview(upcomingMoviesView)
+        upcomingMoviesView.snp.remakeConstraints { make in
+            make.top.equalTo(scrollView.contentLayoutGuide.snp.top).offset(20)
+            make.leading.trailing.equalTo(scrollView.contentLayoutGuide)
+            make.width.equalTo(scrollView.frameLayoutGuide)
+            make.height.equalTo(250)
+        }
+        
+        scrollView.addSubview(nowPlayingListView)
+        nowPlayingListView.snp.makeConstraints { make in
+            make.top.equalTo(upcomingMoviesView.snp.bottom).offset(20)
+            make.leading.trailing.equalTo(scrollView.contentLayoutGuide)
+            make.width.equalTo(scrollView.frameLayoutGuide)
+            make.height.equalTo(250)
+        }
+        
+        scrollView.addSubview(popularListView)
+        popularListView.snp.makeConstraints { make in
+            make.top.equalTo(nowPlayingListView.snp.bottom).offset(20)
+            make.leading.trailing.equalTo(scrollView.contentLayoutGuide)
+            make.width.equalTo(scrollView.frameLayoutGuide)
+            make.height.equalTo(250)
+        }
+        
+        scrollView.addSubview(topRateListView)
+        topRateListView.snp.makeConstraints { make in
+            make.top.equalTo(popularListView.snp.bottom).offset(20)
+            make.leading.trailing.equalTo(scrollView.contentLayoutGuide)
+            make.width.equalTo(scrollView.frameLayoutGuide)
+            make.height.equalTo(250)
+            make.bottom.equalTo(scrollView.contentLayoutGuide.snp.bottom).offset(-20)
+        }
     }
     
     private func setupNavigationBar() {

@@ -1,21 +1,21 @@
 //
-//  UpcomingMoviesCollectionView.swift
+//  NewPlayingListView.swift
 //  MVVM_SideProject
 //
-//  Created by Willy Hsu on 2025/4/18.
+//  Created by Willy Hsu on 2025/4/20.
 //
 
 import Foundation
 import UIKit
 import SnapKit
 
-class UpcomingMoviesCollectionView: UIView {
+class NowPlayingListView: UIView {
     
     let collectionView: UICollectionView
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        let text = "準備上映"
+        let text = "現正熱映"
         let attrs: [NSAttributedString.Key: Any] = [
             .font: ThemeFont.bold(ofSize: 20),
             .foregroundColor: UIColor.label
@@ -47,7 +47,7 @@ class UpcomingMoviesCollectionView: UIView {
     }
     
     override init(frame: CGRect) {
-        collectionView = UpcomingMoviesCollectionView.makeCollectionView()
+        collectionView = NowPlayingListView.makeCollectionView()
         super.init(frame: frame)
         collectionView.dataSource = self
         collectionView.delegate   = self
@@ -78,7 +78,7 @@ class UpcomingMoviesCollectionView: UIView {
 }
 
 
-extension UpcomingMoviesCollectionView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension NowPlayingListView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
