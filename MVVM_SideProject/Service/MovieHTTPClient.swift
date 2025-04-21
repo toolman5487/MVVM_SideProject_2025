@@ -10,7 +10,6 @@ import Combine
 
 enum MovieError: Error {
     case urlError
-    
 }
 
 class MovieHTTPClient{

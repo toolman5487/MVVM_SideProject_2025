@@ -58,6 +58,7 @@ class HomeView:UIViewController{
     }()
     
     
+    
     private func layout(){
         view.addSubview(avatarImageView)
         view.addSubview(vUserStackView)

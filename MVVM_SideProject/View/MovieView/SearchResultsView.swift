@@ -13,7 +13,7 @@ import SDWebImage
 
 class SearchResultsView: UIViewController, UISearchResultsUpdating {
     
-    private let viewModel: MovieListViewModel
+    private let movieListviewModel: MovieListViewModel
     private var cancellables = Set<AnyCancellable>()
 
     private let tableView: UITableView = {
@@ -24,7 +24,7 @@ class SearchResultsView: UIViewController, UISearchResultsUpdating {
     }()
     
     private func bindViewModel() {
-        viewModel.$movies
+        movieListviewModel.$movies
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
@@ -34,11 +34,11 @@ class SearchResultsView: UIViewController, UISearchResultsUpdating {
 
     func updateSearchResults(for searchController: UISearchController) {
         let query = searchController.searchBar.text ?? ""
-        viewModel.setSearchText(query)
+        movieListviewModel.setSearchText(query)
     }
     
     init(viewModel: MovieListViewModel) {
-        self.viewModel = viewModel
+        self.movieListviewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -61,13 +61,13 @@ class SearchResultsView: UIViewController, UISearchResultsUpdating {
 
 extension SearchResultsView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.movies.count
+        return movieListviewModel.movies.count
     }
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: "SearchResultCell", for: indexPath)
-        let movie = viewModel.movies[indexPath.row]
+        let movie = movieListviewModel.movies[indexPath.row]
         var config = cell.defaultContentConfiguration()
         config.text = movie.originalTitle
         config.textProperties.font = ThemeFont.bold(ofSize: 16)
@@ -79,11 +79,12 @@ extension SearchResultsView: UITableViewDataSource {
 
 extension SearchResultsView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movie = viewModel.movies[indexPath.row]
-        let detailVC =  MovieDetailView()
+        let movie = movieListviewModel.movies[indexPath.row]
+        let detailVM = MovieDetailViewModel(movieId: movie.id)
+        let detailVC = MovieDetailView(viewModel: detailVM)
         detailVC.modalPresentationStyle = .pageSheet
         if let sheet = detailVC.sheetPresentationController {
-            sheet.detents = [.medium(), .large()]
+            sheet.detents = [.large()]
             sheet.prefersGrabberVisible = true
             sheet.preferredCornerRadius = 16
         }

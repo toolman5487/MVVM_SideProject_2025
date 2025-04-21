@@ -16,7 +16,7 @@ class SigninView:UIViewController{
     private let headerLabel: UILabel = {
         let label = UILabel()
         label.text = "登入"
-        label.font = UIFont.boldSystemFont(ofSize: 24)
+        label.font = UIFont.boldSystemFont(ofSize: 30)
         return label
     }()
     
@@ -32,7 +32,7 @@ class SigninView:UIViewController{
         textField.placeholder = "輸入 Email"
         textField.borderStyle = .roundedRect
         textField.layer.cornerRadius = 10
-        textField.autocapitalizationType = .none
+        textField.layer.masksToBounds = true
         textField.text = "willy548798@gmail.com"
         return textField
     }()
@@ -42,6 +42,7 @@ class SigninView:UIViewController{
         textField.placeholder = "輸入密碼"
         textField.borderStyle = .roundedRect
         textField.layer.cornerRadius = 10
+        textField.layer.masksToBounds = true
         textField.isSecureTextEntry = true
         textField.text = "willy861031"
         return textField
@@ -53,7 +54,7 @@ class SigninView:UIViewController{
             passwordTextField
         ])
         stack.axis = .vertical
-        stack.spacing = 8
+        stack.spacing = 10
         stack.distribution = .fillEqually
         return stack
     }()
@@ -61,6 +62,7 @@ class SigninView:UIViewController{
     private let signinButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("確認", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         button.setTitleColor(.label, for: .normal)
         button.layer.cornerRadius = 10
         button.backgroundColor = .secondarySystemBackground
@@ -96,7 +98,7 @@ class SigninView:UIViewController{
         
         view.addSubview(signinButton)
         signinButton.snp.makeConstraints { make in
-            make.top.equalTo(vStack.snp.bottom).offset(16)
+            make.top.equalTo(vStack.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(48)
         }

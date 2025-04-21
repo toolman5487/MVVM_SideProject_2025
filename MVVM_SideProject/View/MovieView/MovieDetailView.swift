@@ -9,29 +9,43 @@ import Foundation
 import UIKit
 import SnapKit
 import SDWebImage
+import Combine
 
 class MovieDetailView:UIViewController{
     
+    private let viewModel:MovieDetailViewModel
+    private var cancellables = Set<AnyCancellable>()
+    
+    init(viewModel: MovieDetailViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private let scrollView = UIScrollView()
     
+    // MARK: backdropImage
     private let backdropImageView: UIImageView = {
         let imageview = UIImageView()
-        imageview.contentMode = .scaleAspectFill
+        imageview.contentMode = .scaleAspectFit
         imageview.clipsToBounds = true
         imageview.image = UIImage(named: "tmdb")
         return imageview
     }()
-// MARK: - titleStack -
+    // MARK: - titleStack -
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = ThemeFont.bold(ofSize: 30)
+        label.font = ThemeFont.bold(ofSize: 32)
         label.numberOfLines = 1
         label.text = "Movie Title"
         return label
     }()
     private let releaseRuntimeLabel: UILabel = {
         let label = UILabel()
-        label.font = ThemeFont.regular(ofSize: 20)
+        label.font = ThemeFont.regular(ofSize: 16)
         label.textColor = .secondaryLabel
         label.numberOfLines = 1
         label.text = "2025"
@@ -44,25 +58,25 @@ class MovieDetailView:UIViewController{
         stack.alignment = .leading
         return stack
     }()
-// MARK: - voteStack -
-   private lazy var popularityLabel: UILabel = {
-       let label = UILabel()
-       label.numberOfLines = 2
-       label.textAlignment = .center
-       let boldAttrs: [NSAttributedString.Key: Any] = [
-           .font: ThemeFont.bold(ofSize: 20),
-           .foregroundColor: UIColor.secondaryLabel
-       ]
-       let regularAttrs: [NSAttributedString.Key: Any] = [
-           .font: ThemeFont.regular(ofSize: 16),
-           .foregroundColor: UIColor.label
-       ]
-       let stats = NSMutableAttributedString()
-       stats.append(NSAttributedString(string: "人氣\n", attributes: boldAttrs))
-       stats.append(NSAttributedString(string: "0.0", attributes: regularAttrs))
-       label.attributedText = stats
-       return label
-   }()
+    // MARK: - voteStack -
+    private lazy var popularityLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        let boldAttrs: [NSAttributedString.Key: Any] = [
+            .font: ThemeFont.bold(ofSize: 20),
+            .foregroundColor: UIColor.secondaryLabel
+        ]
+        let regularAttrs: [NSAttributedString.Key: Any] = [
+            .font: ThemeFont.regular(ofSize: 16),
+            .foregroundColor: UIColor.label
+        ]
+        let stats = NSMutableAttributedString()
+        stats.append(NSAttributedString(string: "人氣\n", attributes: boldAttrs))
+        stats.append(NSAttributedString(string: "0.0", attributes: regularAttrs))
+        label.attributedText = stats
+        return label
+    }()
     private lazy var voteAverageLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
@@ -99,12 +113,12 @@ class MovieDetailView:UIViewController{
         label.attributedText = stats
         return label
     }()
-   private lazy var voteStack: UIStackView = {
+    private lazy var voteStack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [popularityLabel,voteAverageLabel,voteCountLabel])
         stack.axis = .horizontal
         stack.spacing = 8
-       stack.distribution = .fillEqually
-       stack.alignment = .center
+        stack.distribution = .fillEqually
+        stack.alignment = .center
         stack.backgroundColor = .secondarySystemBackground
         stack.layer.cornerRadius = 10
         stack.layer.masksToBounds = true
@@ -112,7 +126,7 @@ class MovieDetailView:UIViewController{
         stack.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         return stack
     }()
-// MARK: - overviewStack -
+    // MARK: - overviewStack -
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -127,24 +141,23 @@ class MovieDetailView:UIViewController{
         let label = UILabel()
         label.font = ThemeFont.regular(ofSize: 16)
         label.textColor = .label
-        label.numberOfLines = 0
-        label.text = "Overview - Overview - Overview - Overview - Overview"
+        label.numberOfLines = 16
         return label
     }()
     private lazy var overviewStack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [posterImageView,overviewLabel])
         stack.axis = .horizontal
         stack.spacing = 8
-        stack.alignment = .leading
+        stack.alignment = .top
         stack.distribution = .fillEqually
         stack.backgroundColor = .secondarySystemBackground
         stack.layer.cornerRadius = 10
         stack.layer.masksToBounds = true
         stack.isLayoutMarginsRelativeArrangement = true
-        stack.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        stack.layoutMargins = UIEdgeInsets(top: 16, left: 8, bottom: 16, right: 8)
         return stack
     }()
-// MARK: - productionStack -
+    // MARK: - productionStack -
     private let budgetRevenueLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.regular(ofSize: 14)
@@ -182,7 +195,7 @@ class MovieDetailView:UIViewController{
         stats.append(NSAttributedString(string: "TMDB", attributes: regularAttrs))
         label.attributedText = stats
         return label
-
+        
     }()
     
     private lazy var productionStack: UIStackView = {
@@ -198,7 +211,57 @@ class MovieDetailView:UIViewController{
         stack.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         return stack
     }()
-// MARK: - layout -
+    
+    private func bindViewModel() {
+        viewModel.$movieDetail
+            .compactMap { $0 }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] detail in
+                self?.configure(with: detail)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func configure(with detail: MovieDetailModel) {
+        titleLabel.text = detail.title
+        let year = String(detail.releaseDate.prefix(4))
+        releaseRuntimeLabel.text = "\(year) | \(detail.runtime) 分鐘"
+        
+        if let path = detail.backdropPath,
+           let url = URL(string: "https://image.tmdb.org/t/p/w780\(path)") {
+            backdropImageView.sd_setImage(with: url)
+        }
+        
+        if let poster = detail.posterPath,
+           let url = URL(string: "https://image.tmdb.org/t/p/w342\(poster)") {
+            posterImageView.sd_setImage(with: url)
+        }
+        overviewLabel.text = detail.overview ?? "目前沒有簡介"
+        
+        func makeStats(title: String, value: String) -> NSAttributedString {
+            let bold = [NSAttributedString.Key.font: ThemeFont.bold(ofSize: 20),
+                        .foregroundColor: UIColor.secondaryLabel]
+            let regular = [NSAttributedString.Key.font: ThemeFont.regular(ofSize: 16),
+                           .foregroundColor: UIColor.label]
+            let stats = NSMutableAttributedString(string: "\(title)\n", attributes: bold)
+            stats.append(NSAttributedString(string: value, attributes: regular))
+            return stats
+        }
+        popularityLabel.attributedText = makeStats(title: "人氣", value: String(format: "%.1f", detail.popularity))
+        let scoreText = String(format: "%.1f / 10", detail.voteAverage)
+        voteAverageLabel.attributedText = makeStats(title: "評分", value: scoreText)
+        voteCountLabel.attributedText   = makeStats(title: "投票數", value: "\(detail.voteCount)")
+        let revenueNumber = detail.revenue
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        let revenueString = numberFormatter.string(from: NSNumber(value: revenueNumber)) ?? "\(revenueNumber)"
+        let revenueValueText = "$ \(revenueString) USD"
+        budgetRevenueLabel.attributedText = makeStats(title: "票房", value: revenueValueText)
+        let comps = detail.productionCompanies.map(\.name).joined(separator: ", ")
+        productionLabel.attributedText = makeStats(title: "電影公司", value: comps)
+    }
+    
+    // MARK: - layout -
     private lazy var wholeStack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [backdropImageView,titleStack,voteStack,overviewStack,productionStack])
         stack.axis = .vertical
@@ -223,6 +286,7 @@ class MovieDetailView:UIViewController{
         
         backdropImageView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
+            make.height.equalTo(250)
         }
         
         titleStack.snp.makeConstraints { make in
@@ -233,29 +297,27 @@ class MovieDetailView:UIViewController{
         voteStack.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(titleStack.snp.bottom).offset(32)
+            
+            overviewStack.snp.makeConstraints { make in
+                make.leading.trailing.equalToSuperview().inset(16)
+                make.top.equalTo(voteStack.snp.bottom).offset(32)
+            }
+            posterImageView.snp.makeConstraints { make in
+                make.height.equalTo(300)
+                make.width.equalTo(200)
+            }
+            productionStack.snp.makeConstraints { make in
+                make.leading.trailing.equalToSuperview().inset(16)
+                make.top.equalTo(overviewStack.snp.bottom).offset(32)
+            }
         }
-        
-        overviewStack.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(voteStack.snp.bottom).offset(32)
-        }
-        posterImageView.snp.makeConstraints { make in
-            make.height.equalTo(200)
-            make.width.equalTo(300)
-        }
-        
-        productionStack.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(overviewStack.snp.bottom).offset(32)
-        }
-        
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         layoutUI()
-        
+        viewModel.fetchDetail()
+        bindViewModel()
     }
 }
