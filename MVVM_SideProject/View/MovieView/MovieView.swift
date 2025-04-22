@@ -47,34 +47,34 @@ class MovieView: UIViewController {
         
         scrollView.addSubview(upcomingMoviesView)
         upcomingMoviesView.snp.remakeConstraints { make in
-            make.top.equalTo(scrollView.contentLayoutGuide.snp.top).offset(20)
+            make.top.equalTo(scrollView.contentLayoutGuide.snp.top).offset(16)
             make.leading.trailing.equalTo(scrollView.contentLayoutGuide)
             make.width.equalTo(scrollView.frameLayoutGuide)
-            make.height.equalTo(250)
+            make.height.equalTo(300)
         }
         
         scrollView.addSubview(nowPlayingListView)
         nowPlayingListView.snp.makeConstraints { make in
-            make.top.equalTo(upcomingMoviesView.snp.bottom).offset(20)
+            make.top.equalTo(upcomingMoviesView.snp.bottom).offset(40)
             make.leading.trailing.equalTo(scrollView.contentLayoutGuide)
             make.width.equalTo(scrollView.frameLayoutGuide)
-            make.height.equalTo(250)
+            make.height.equalTo(300)
         }
         
         scrollView.addSubview(popularListView)
         popularListView.snp.makeConstraints { make in
-            make.top.equalTo(nowPlayingListView.snp.bottom).offset(20)
+            make.top.equalTo(nowPlayingListView.snp.bottom).offset(40)
             make.leading.trailing.equalTo(scrollView.contentLayoutGuide)
             make.width.equalTo(scrollView.frameLayoutGuide)
-            make.height.equalTo(250)
+            make.height.equalTo(300)
         }
         
         scrollView.addSubview(topRateListView)
         topRateListView.snp.makeConstraints { make in
-            make.top.equalTo(popularListView.snp.bottom).offset(20)
+            make.top.equalTo(popularListView.snp.bottom).offset(40)
             make.leading.trailing.equalTo(scrollView.contentLayoutGuide)
             make.width.equalTo(scrollView.frameLayoutGuide)
-            make.height.equalTo(250)
+            make.height.equalTo(300)
             make.bottom.equalTo(scrollView.contentLayoutGuide.snp.bottom).offset(-20)
         }
     }

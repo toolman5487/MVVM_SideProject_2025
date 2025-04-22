@@ -35,7 +35,63 @@ class MovieHTTPClient{
             }
             .eraseToAnyPublisher()
     }
-    
+
+// MARK: UpcomingMovie
+    func fetchUpcomingMovies() -> AnyPublisher<[Movie], Error> {
+        let urlString = "\(baseURL)/movie/upcoming?api_key=\(apiKey)&language=zh-TW"
+        guard let url = URL(string: urlString) else {
+            return Fail(error: MovieError.urlError).eraseToAnyPublisher()
+        }
+        return URLSession.shared.dataTaskPublisher(for: url)
+            .map(\.data)
+            .decode(type: MovieResponse.self, decoder: JSONDecoder())
+            .map(\.results)
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
+    }
+
+// MARK: NowPlayingMovie
+    func fetchNowPlayingMovies() -> AnyPublisher<[Movie], Error> {
+        let urlString = "\(baseURL)/movie/now_playing?api_key=\(apiKey)&language=zh-TW"
+        guard let url = URL(string: urlString) else {
+            return Fail(error: MovieError.urlError).eraseToAnyPublisher()
+        }
+        return URLSession.shared.dataTaskPublisher(for: url)
+            .map(\.data)
+            .decode(type: MovieResponse.self, decoder: JSONDecoder())
+            .map(\.results)
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
+    }
+
+// MARK: PopularMovie
+    func fetchPopularMovies() -> AnyPublisher<[Movie], Error> {
+        let urlString = "\(baseURL)/movie/popular?api_key=\(apiKey)&language=zh-TW"
+        guard let url = URL(string: urlString) else {
+            return Fail(error: MovieError.urlError).eraseToAnyPublisher()
+        }
+        return URLSession.shared.dataTaskPublisher(for: url)
+            .map(\.data)
+            .decode(type: MovieResponse.self, decoder: JSONDecoder())
+            .map(\.results)
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
+    }
+
+//MARK: TopRateMovie
+    func fetchTopRatedMovies() -> AnyPublisher<[Movie], Error> {
+        let urlString = "\(baseURL)/movie/top_rated?api_key=\(apiKey)&language=zh-TW"
+        guard let url = URL(string: urlString) else {
+            return Fail(error: MovieError.urlError).eraseToAnyPublisher()
+        }
+        return URLSession.shared.dataTaskPublisher(for: url)
+            .map(\.data)
+            .decode(type: MovieResponse.self, decoder: JSONDecoder())
+            .map(\.results)
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
+    }
+
     func fetchMovieDetail(id: Int) -> AnyPublisher<MovieDetailModel, Error> {
         let urlString = "\(baseURL)/movie/\(id)?api_key=\(apiKey)&language=zh-TW"
         guard let url = URL(string: urlString) else {
@@ -49,5 +105,3 @@ class MovieHTTPClient{
     }
     
 }
-
-
