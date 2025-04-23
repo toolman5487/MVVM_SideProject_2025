@@ -20,7 +20,7 @@ class UpcomingMovieCell: UICollectionViewCell {
 
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = ThemeFont.regular(ofSize: 14)
+        label.font = ThemeFont.demiBold(ofSize: 16)
         label.textColor = .label
         label.textAlignment = .center
         label.numberOfLines = 1

@@ -55,7 +55,7 @@ class MovieView: UIViewController {
         
         scrollView.addSubview(nowPlayingListView)
         nowPlayingListView.snp.makeConstraints { make in
-            make.top.equalTo(upcomingMoviesView.snp.bottom).offset(40)
+            make.top.equalTo(upcomingMoviesView.snp.bottom).offset(60)
             make.leading.trailing.equalTo(scrollView.contentLayoutGuide)
             make.width.equalTo(scrollView.frameLayoutGuide)
             make.height.equalTo(300)
@@ -63,7 +63,7 @@ class MovieView: UIViewController {
         
         scrollView.addSubview(popularListView)
         popularListView.snp.makeConstraints { make in
-            make.top.equalTo(nowPlayingListView.snp.bottom).offset(40)
+            make.top.equalTo(nowPlayingListView.snp.bottom).offset(60)
             make.leading.trailing.equalTo(scrollView.contentLayoutGuide)
             make.width.equalTo(scrollView.frameLayoutGuide)
             make.height.equalTo(300)
@@ -71,11 +71,11 @@ class MovieView: UIViewController {
         
         scrollView.addSubview(topRateListView)
         topRateListView.snp.makeConstraints { make in
-            make.top.equalTo(popularListView.snp.bottom).offset(40)
+            make.top.equalTo(popularListView.snp.bottom).offset(60)
             make.leading.trailing.equalTo(scrollView.contentLayoutGuide)
             make.width.equalTo(scrollView.frameLayoutGuide)
             make.height.equalTo(300)
-            make.bottom.equalTo(scrollView.contentLayoutGuide.snp.bottom).offset(-20)
+            make.bottom.equalTo(scrollView.contentLayoutGuide.snp.bottom).offset(-40)
         }
     }
     
