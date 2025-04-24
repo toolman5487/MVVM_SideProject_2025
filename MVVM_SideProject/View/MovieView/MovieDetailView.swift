@@ -15,7 +15,7 @@ class MovieDetailView:UIViewController{
     
     private let viewModel:MovieDetailViewModel
     private var cancellables = Set<AnyCancellable>()
-    
+   
     init(viewModel: MovieDetailViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -142,6 +142,7 @@ class MovieDetailView:UIViewController{
         label.font = ThemeFont.regular(ofSize: 16)
         label.textColor = .label
         label.numberOfLines = 16
+        label.text = "電影簡介"
         return label
     }()
     private lazy var overviewStack: UIStackView = {
@@ -236,7 +237,7 @@ class MovieDetailView:UIViewController{
            let url = URL(string: "https://image.tmdb.org/t/p/w342\(poster)") {
             posterImageView.sd_setImage(with: url)
         }
-        overviewLabel.text = detail.overview ?? "目前沒有簡介"
+        overviewLabel.text = detail.overview
         
         func makeStats(title: String, value: String) -> NSAttributedString {
             let bold = [NSAttributedString.Key.font: ThemeFont.bold(ofSize: 20),

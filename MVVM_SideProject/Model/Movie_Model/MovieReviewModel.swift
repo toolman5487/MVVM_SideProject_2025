@@ -1,0 +1,29 @@
+//
+//  MovieReviewModel.swift
+//  MVVM_SideProject
+//
+//  Created by Willy Hsu on 2025/4/24.
+//
+
+import Foundation
+
+struct ReviewResponse: Codable {
+    let id: Int
+    let page: Int
+    let results: [Review]
+    let totalPages: Int
+    let totalResults: Int
+
+    enum CodingKeys: String, CodingKey {
+        case id, page, results
+        case totalPages   = "total_pages"
+        case totalResults = "total_results"
+    }
+}
+
+struct Review: Codable {
+    let author: String
+    let content: String
+    let id: String
+    let url: String
+}
