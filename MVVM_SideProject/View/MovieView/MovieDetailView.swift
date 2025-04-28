@@ -13,6 +13,8 @@ import Combine
 
 class MovieDetailView:UIViewController{
     
+    private let movieReviewView = MovieReviewCollectionView()
+    
     private let viewModel:MovieDetailViewModel
     private var cancellables = Set<AnyCancellable>()
    
@@ -264,7 +266,7 @@ class MovieDetailView:UIViewController{
     
     // MARK: - layout -
     private lazy var wholeStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [backdropImageView,titleStack,voteStack,overviewStack,productionStack])
+        let stack = UIStackView(arrangedSubviews: [backdropImageView,titleStack,voteStack,overviewStack,productionStack,movieReviewView])
         stack.axis = .vertical
         stack.spacing = 8
         return stack
@@ -307,10 +309,17 @@ class MovieDetailView:UIViewController{
                 make.height.equalTo(300)
                 make.width.equalTo(200)
             }
-            productionStack.snp.makeConstraints { make in
-                make.leading.trailing.equalToSuperview().inset(16)
-                make.top.equalTo(overviewStack.snp.bottom).offset(32)
-            }
+        }
+        
+        productionStack.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.equalTo(overviewStack.snp.bottom).offset(32)
+        }
+        
+        movieReviewView.snp.makeConstraints { make in
+            make.top.equalTo(productionStack.snp.bottom).offset(32)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(300)
         }
     }
     

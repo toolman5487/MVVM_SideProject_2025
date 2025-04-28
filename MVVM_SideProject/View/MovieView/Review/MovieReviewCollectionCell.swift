@@ -13,28 +13,43 @@ class MovieReviewCollectionCell: UICollectionViewCell {
     private let authorLabel = UILabel()
     private let contentLabel = UILabel()
     
+    let iconImageView: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFit
+        image.tintColor = .label
+        image.clipsToBounds = true
+        return image
+    }()
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(authorLabel)
-        contentView.addSubview(contentLabel)
-        
-        contentView.backgroundColor = .secondarySystemBackground
-        contentView.layer.cornerRadius = 8
-        contentView.layer.masksToBounds = true
-        
-        authorLabel.font = ThemeFont.demiBold(ofSize: 16)
-        contentLabel.font = ThemeFont.regular(ofSize: 12)
-        contentLabel.numberOfLines = 3
-
-        
-        authorLabel.snp.makeConstraints {
-            make in make.top.leading.trailing.equalToSuperview().inset(8)
+        contentView.addSubview(iconImageView)
+        iconImageView.snp.makeConstraints { make in
+            make.top.leading.equalToSuperview().inset(8)
+            make.width.height.equalTo(200)
         }
-        contentLabel.snp.makeConstraints {
-            make in
-            make.top.equalTo(authorLabel.snp.bottom).offset(4)
-            make.leading.trailing.bottom.equalToSuperview().inset(8)
-        }
+        
+//        contentView.addSubview(authorLabel)
+//        contentView.addSubview(contentLabel)
+//        
+//        contentView.backgroundColor = .secondarySystemBackground
+//        contentView.layer.cornerRadius = 8
+//        contentView.layer.masksToBounds = true
+//        
+//        authorLabel.font = ThemeFont.demiBold(ofSize: 16)
+//        contentLabel.font = ThemeFont.regular(ofSize: 12)
+//        contentLabel.numberOfLines = 3
+//
+//        
+//        authorLabel.snp.makeConstraints {
+//            make in make.top.leading.trailing.equalToSuperview().inset(8)
+//        }
+//        contentLabel.snp.makeConstraints {
+//            make in
+//            make.top.equalTo(authorLabel.snp.bottom).offset(4)
+//            make.leading.trailing.bottom.equalToSuperview().inset(8)
+//        }
     }
     required init?(coder: NSCoder) { fatalError() }
     

@@ -14,9 +14,11 @@ import SDWebImage
 class NowPlayingListView: UIView {
     
     let collectionView: UICollectionView
+    
     private var movies:[Movie] = []{
         didSet{collectionView.reloadData()}
     }
+    
     private let httpClient = MovieHTTPClient()
     private var cancellables = Set<AnyCancellable>()
     var onMovieSelected: ((Movie) -> Void)?
@@ -97,7 +99,6 @@ class NowPlayingListView: UIView {
     }
     
 }
-
 
 extension NowPlayingListView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
