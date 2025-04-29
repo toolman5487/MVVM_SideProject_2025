@@ -8,6 +8,7 @@
 import Foundation
 
 struct MovieDetailModel: Codable {
+    let id: Int
     let adult: Bool
     let backdropPath: String?
     let posterPath: String?
@@ -23,6 +24,7 @@ struct MovieDetailModel: Codable {
     let productionCompanies: [ProductionCompany]
 
     enum CodingKeys: String, CodingKey {
+        case id
         case adult
         case backdropPath     = "backdrop_path"
         case posterPath       = "poster_path"

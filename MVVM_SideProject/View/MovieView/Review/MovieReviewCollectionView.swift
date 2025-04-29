@@ -20,14 +20,6 @@ class MovieReviewCollectionView: UIView {
     private let httpClient = MovieHTTPClient()
     private var movieId: Int!
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "觀眾短評"
-        label.font = ThemeFont.demiBold(ofSize: 16)
-        label.textColor = .label
-        return label
-    }()
-    
     let collectionView: UICollectionView
     
     private static func makeCollectionView() -> UICollectionView {
@@ -35,7 +27,7 @@ class MovieReviewCollectionView: UIView {
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 12
         layout.sectionInset = .zero
-        layout.itemSize = CGSize(width: 200, height: 300)
+        layout.itemSize = CGSize(width: 200, height: 200)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.showsHorizontalScrollIndicator = false
@@ -45,14 +37,14 @@ class MovieReviewCollectionView: UIView {
     }
     
     lazy var reviewStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [titleLabel, collectionView])
+        let stack = UIStackView(arrangedSubviews: [collectionView])
         stack.axis = .vertical
         stack.spacing = 8
         stack.backgroundColor = .secondarySystemBackground
+        stack.distribution = .fillProportionally
         stack.layer.cornerRadius = 10
         stack.layer.masksToBounds = true
         stack.isLayoutMarginsRelativeArrangement = true
-        stack.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         return stack
     }()
     
@@ -76,15 +68,11 @@ class MovieReviewCollectionView: UIView {
         reviewStackView.snp.makeConstraints { make in
             make.leading.trailing.top.bottom.equalToSuperview()
         }
-            
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(16)
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.bottom.equalTo(collectionView.snp.top).offset(-16)
-        }
+        
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(16)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(8)
+            make.height.equalTo(200)
         }
         
     }
@@ -107,13 +95,15 @@ class MovieReviewCollectionView: UIView {
 
 extension MovieReviewCollectionView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return reviews.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieReviewCollectionCell",
                                           for: indexPath) as! MovieReviewCollectionCell
-        cell.iconImageView.image = UIImage(systemName: "text.word.spacing")
+        let review = reviews[indexPath.item]
+        cell.authorLabel.text = review.author.isEmpty ? "Anonymous" : review.author
+        cell.contentLabel.text = review.content
         
         return cell
     }

@@ -106,7 +106,7 @@ class MovieHTTPClient{
     
     // MARK: MovieReview
     func fetchMovieReviews(id: Int, page: Int = 1) -> AnyPublisher<[Review], Error> {
-        let urlString = "\(baseURL)/movie/\(id)/reviews?api_key=\(apiKey)&language=zh-TW&page=\(page)"
+        let urlString = "\(baseURL)/movie/\(id)/reviews?api_key=\(apiKey)&page=\(page)"
         guard let url = URL(string: urlString) else {
             return Fail(error: MovieError.urlError).eraseToAnyPublisher()
         }

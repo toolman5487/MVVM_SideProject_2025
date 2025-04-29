@@ -10,51 +10,49 @@ import SnapKit
 
 class MovieReviewCollectionCell: UICollectionViewCell {
     
-    private let authorLabel = UILabel()
-    private let contentLabel = UILabel()
-    
-    let iconImageView: UIImageView = {
-        let image = UIImageView()
-        image.contentMode = .scaleAspectFit
-        image.tintColor = .label
-        image.clipsToBounds = true
-        return image
+    let authorLabel:UILabel = {
+        let label = UILabel()
+        label.text = "Author"
+        label.textColor = .label
+        label.font = ThemeFont.demiBold(ofSize: 16)
+        return label
     }()
     
+    let contentLabel:UILabel = {
+        let label = UILabel()
+        label.text = "Review Content"
+        label.textColor = .label
+        label.font = ThemeFont.regular(ofSize: 12)
+        label.numberOfLines = 10
+        return label
+    }()
+    
+    private func layout(){
+        contentView.addSubview(authorLabel)
+        contentView.addSubview(contentLabel)
+
+        authorLabel.snp.makeConstraints { make in
+            make.top.equalTo(contentView).offset(8)
+            make.leading.trailing.equalToSuperview().inset(8)
+        }
+
+        contentLabel.snp.makeConstraints { make in
+            make.top.equalTo(authorLabel.snp.bottom).offset(4)
+            make.leading.trailing.equalToSuperview().inset(8)
+            make.bottom.lessThanOrEqualToSuperview().inset(8)
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(iconImageView)
-        iconImageView.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().inset(8)
-            make.width.height.equalTo(200)
-        }
-        
-//        contentView.addSubview(authorLabel)
-//        contentView.addSubview(contentLabel)
-//        
-//        contentView.backgroundColor = .secondarySystemBackground
-//        contentView.layer.cornerRadius = 8
-//        contentView.layer.masksToBounds = true
-//        
-//        authorLabel.font = ThemeFont.demiBold(ofSize: 16)
-//        contentLabel.font = ThemeFont.regular(ofSize: 12)
-//        contentLabel.numberOfLines = 3
-//
-//        
-//        authorLabel.snp.makeConstraints {
-//            make in make.top.leading.trailing.equalToSuperview().inset(8)
-//        }
-//        contentLabel.snp.makeConstraints {
-//            make in
-//            make.top.equalTo(authorLabel.snp.bottom).offset(4)
-//            make.leading.trailing.bottom.equalToSuperview().inset(8)
-//        }
+        layout()
     }
+    
     required init?(coder: NSCoder) { fatalError() }
     
-    func configure(with review: Review) {
-        authorLabel.text  = review.author
-        contentLabel.text = review.content
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        authorLabel.text = nil
+        contentLabel.text = nil
     }
 }

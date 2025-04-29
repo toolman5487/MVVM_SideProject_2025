@@ -215,6 +215,14 @@ class MovieDetailView:UIViewController{
         return stack
     }()
     
+    private let reviewLabel: UILabel = {
+        let label = UILabel()
+        label.text = "觀眾短評"
+        label.font = ThemeFont.demiBold(ofSize: 20)
+        label.textColor = .secondaryLabel
+        return label
+    }()
+    
     private func bindViewModel() {
         viewModel.$movieDetail
             .compactMap { $0 }
@@ -262,11 +270,13 @@ class MovieDetailView:UIViewController{
         budgetRevenueLabel.attributedText = makeStats(title: "票房", value: revenueValueText)
         let comps = detail.productionCompanies.map(\.name).joined(separator: ", ")
         productionLabel.attributedText = makeStats(title: "電影公司", value: comps)
+        
+        movieReviewView.configure(with: detail.id)
     }
     
     // MARK: - layout -
     private lazy var wholeStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [backdropImageView,titleStack,voteStack,overviewStack,productionStack,movieReviewView])
+        let stack = UIStackView(arrangedSubviews: [backdropImageView,titleStack,voteStack,overviewStack,productionStack,reviewLabel,movieReviewView])
         stack.axis = .vertical
         stack.spacing = 8
         return stack
@@ -316,10 +326,15 @@ class MovieDetailView:UIViewController{
             make.top.equalTo(overviewStack.snp.bottom).offset(32)
         }
         
-        movieReviewView.snp.makeConstraints { make in
-            make.top.equalTo(productionStack.snp.bottom).offset(32)
+        reviewLabel.snp.makeConstraints { make in
+            make.top.equalTo(productionStack.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(16)
-            make.height.equalTo(300)
+        }
+        
+        movieReviewView.snp.makeConstraints { make in
+            make.top.equalTo(reviewLabel.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(200)
         }
     }
     
