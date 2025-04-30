@@ -118,6 +118,13 @@ extension TopRateListView: UICollectionViewDataSource, UICollectionViewDelegateF
         cell.titleLabel.text = movie.title
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movie = movies[indexPath.row]
+        if let callback = onMovieSelected {
+            callback(movie)
+        }
+    }
 }
 
 extension TopRateListView:UIScrollViewDelegate{

@@ -122,6 +122,13 @@ extension UpcomingMoviesCollectionView: UICollectionViewDataSource, UICollection
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movie = movies[indexPath.row]
+        if let callback = onMovieSelected {
+            callback(movie)
+        }
+    }
+    
 }
 
 extension UpcomingMoviesCollectionView:UIScrollViewDelegate{

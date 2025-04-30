@@ -342,7 +342,6 @@ class MovieDetailView:UIViewController{
             make.top.equalTo(reviewLabel.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(16)
             make.bottom.equalToSuperview().offset(20)
-            make.height.equalTo(200)
         }
     }
     

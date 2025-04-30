@@ -46,7 +46,7 @@ class MovieView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func layout() {
+    private func layout() {
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
@@ -85,13 +85,15 @@ class MovieView: UIViewController {
             make.bottom.equalTo(scrollView.contentLayoutGuide.snp.bottom).offset(-40)
         }
     }
-    
     private func setupNavigationBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.title = "電影"
+        definesPresentationContext = true
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        searchController.hidesNavigationBarDuringPresentation = false
     }
-    
     private func bind() {
         movieListViewModel.$loadingCompleted
             .receive(on: DispatchQueue.main)
@@ -105,6 +107,41 @@ class MovieView: UIViewController {
             }.store(in: &cancellables)
     }
     
+    private func configureSelection() {
+        nowPlayingListView.onMovieSelected = { [weak self] movie in
+            guard let self = self else { return }
+            let detailVM = MovieDetailViewModel(movieId: movie.id)
+            let detailVC = MovieDetailView(viewModel: detailVM)
+            detailVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
+        
+        upcomingMoviesView.onMovieSelected = { [weak self] movie in
+            guard let self = self else { return }
+            let detailVM = MovieDetailViewModel(movieId: movie.id)
+            let detailVC = MovieDetailView(viewModel: detailVM)
+            detailVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
+        
+        popularListView.onMovieSelected = { [weak self] movie in
+            guard let self = self else { return }
+            let detailVM = MovieDetailViewModel(movieId: movie.id)
+            let detailVC = MovieDetailView(viewModel: detailVM)
+            detailVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
+        
+        topRateListView.onMovieSelected = { [weak self] movie in
+            guard let self = self else { return }
+            let detailVM = MovieDetailViewModel(movieId: movie.id)
+            let detailVC = MovieDetailView(viewModel: detailVM)
+            detailVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
+    }
+    
+    
     @objc func handleTap() {
         view.endEditing(true)
     }
@@ -112,10 +149,7 @@ class MovieView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-        definesPresentationContext = true
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
-        searchController.hidesNavigationBarDuringPresentation = false
         layout()
+        configureSelection()
     }
 }

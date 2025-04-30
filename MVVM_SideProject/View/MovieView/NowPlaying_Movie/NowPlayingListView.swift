@@ -101,6 +101,7 @@ class NowPlayingListView: UIView {
 }
 
 extension NowPlayingListView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return movies.count
     }
@@ -120,12 +121,19 @@ extension NowPlayingListView: UICollectionViewDataSource, UICollectionViewDelega
         cell.titleLabel.text = movie.title
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Tap")
+        let movie = movies[indexPath.row]
+        if let callback = onMovieSelected {
+            callback(movie)
+        }
+    }
 }
 
 extension NowPlayingListView:UIScrollViewDelegate{
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView,
-                                   withVelocity velocity: CGPoint,
-                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView,withVelocity velocity: CGPoint,targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         let cellWidth = layout.itemSize.width + layout.minimumLineSpacing
         let proposedX = targetContentOffset.pointee.x + scrollView.contentInset.left
