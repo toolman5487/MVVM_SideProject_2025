@@ -32,7 +32,7 @@ class MovieReviewCollectionCell: UICollectionViewCell {
         contentView.addSubview(contentLabel)
 
         authorLabel.snp.makeConstraints { make in
-            make.top.equalTo(contentView).offset(8)
+            make.top.equalToSuperview().offset(16)
             make.leading.trailing.equalToSuperview().inset(8)
         }
 

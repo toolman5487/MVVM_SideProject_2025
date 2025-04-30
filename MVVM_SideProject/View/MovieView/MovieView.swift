@@ -24,6 +24,13 @@ class MovieView: UIViewController {
     
     private lazy var searchController: UISearchController = {
         let resultsVC = SearchResultsView(viewModel: movieListViewModel)
+        resultsVC.onMovieSelected = { [weak self] movie in
+            guard let self = self else { return }
+            let detailVM = MovieDetailViewModel(movieId: movie.id)
+            let detailVC = MovieDetailView(viewModel: detailVM)
+            detailVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
         let searchController = UISearchController(searchResultsController: resultsVC)
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchResultsUpdater = resultsVC

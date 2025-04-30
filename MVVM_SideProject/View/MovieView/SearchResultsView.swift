@@ -13,14 +13,15 @@ import SDWebImage
 
 class SearchResultsView: UIViewController, UISearchResultsUpdating {
     
+    var onMovieSelected: ((Movie) -> Void)?
     private let movieListviewModel: MovieListViewModel
     private var cancellables = Set<AnyCancellable>()
-
+    
     private let tableView: UITableView = {
-        let tv = UITableView()
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.register(UITableViewCell.self, forCellReuseIdentifier: "SearchResultCell")
-        return tv
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "SearchResultCell")
+        return tableView
     }()
     
     private func bindViewModel() {
@@ -31,7 +32,7 @@ class SearchResultsView: UIViewController, UISearchResultsUpdating {
             }
             .store(in: &cancellables)
     }
-
+    
     func updateSearchResults(for searchController: UISearchController) {
         let query = searchController.searchBar.text ?? ""
         movieListviewModel.setSearchText(query)
@@ -59,12 +60,13 @@ class SearchResultsView: UIViewController, UISearchResultsUpdating {
     }
 }
 
-extension SearchResultsView: UITableViewDataSource {
+extension SearchResultsView: UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieListviewModel.movies.count
     }
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+    func tableView(_ tableView: UITableView,cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: "SearchResultCell", for: indexPath)
         let movie = movieListviewModel.movies[indexPath.row]
@@ -75,19 +77,12 @@ extension SearchResultsView: UITableViewDataSource {
         cell.contentConfiguration = config
         return cell
     }
-}
-
-extension SearchResultsView: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let movie = movieListviewModel.movies[indexPath.row]
-        let detailVM = MovieDetailViewModel(movieId: movie.id)
-        let detailVC = MovieDetailView(viewModel: detailVM)
-        detailVC.modalPresentationStyle = .pageSheet
-        if let sheet = detailVC.sheetPresentationController {
-            sheet.detents = [.large()]
-            sheet.prefersGrabberVisible = true
-            sheet.preferredCornerRadius = 16
-        }
-        present(detailVC, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+        onMovieSelected?(movie)
     }
 }
+
+

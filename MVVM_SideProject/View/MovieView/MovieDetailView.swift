@@ -17,7 +17,7 @@ class MovieDetailView:UIViewController{
     
     private let viewModel:MovieDetailViewModel
     private var cancellables = Set<AnyCancellable>()
-   
+    
     init(viewModel: MovieDetailViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -27,7 +27,12 @@ class MovieDetailView:UIViewController{
         fatalError("init(coder:) has not been implemented")
     }
     
-    private let scrollView = UIScrollView()
+    private let scrollView:UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.contentInset.bottom = 40
+        return scrollView
+    }()
     
     // MARK: backdropImage
     private let backdropImageView: UIImageView = {
@@ -283,9 +288,10 @@ class MovieDetailView:UIViewController{
     }()
     
     private func layoutUI() {
+        view.backgroundColor = .systemBackground
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.edges.equalToSuperview()
         }
         
         scrollView.addSubview(wholeStack)
@@ -299,11 +305,12 @@ class MovieDetailView:UIViewController{
         
         backdropImageView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(250)
+            make.top.equalToSuperview()
+            make.height.equalTo(300)
         }
         
         titleStack.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(16)
+            make.leading.equalToSuperview().offset(12)
             make.top.equalTo(backdropImageView.snp.bottom).offset(16)
         }
         
@@ -334,13 +341,13 @@ class MovieDetailView:UIViewController{
         movieReviewView.snp.makeConstraints { make in
             make.top.equalTo(reviewLabel.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().offset(20)
             make.height.equalTo(200)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
         layoutUI()
         viewModel.fetchDetail()
         bindViewModel()

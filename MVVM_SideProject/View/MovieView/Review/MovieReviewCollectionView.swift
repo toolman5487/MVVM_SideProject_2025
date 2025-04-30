@@ -72,7 +72,7 @@ class MovieReviewCollectionView: UIView {
         collectionView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview().inset(8)
-            make.height.equalTo(200)
+            make.height.equalTo(240)
         }
         
     }
