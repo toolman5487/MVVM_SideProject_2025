@@ -15,22 +15,13 @@ class MainTabBarController:UITabBarController{
         let homeVC = HomeView()
         let homeNav = UINavigationController(rootViewController: homeVC)
         homeNav.tabBarItem = UITabBarItem(title: "首頁",
-                                          image: UIImage(systemName: "house.fill"),
+                                          image: UIImage(systemName: "person.fill"),
                                           tag: 0)
-        let tipCalculator = TipCalculatorView()
-        let tipCalculatorNav = UINavigationController(rootViewController: tipCalculator)
-        tipCalculatorNav.tabBarItem = UITabBarItem(title: "服務費計算器",
-                                                   image: UIImage(systemName: "dollarsign.circle.fill"),
-                                                   tag: 1)
-        
         let movieVC = MovieView(movieListViewModel: MovieListViewModel(httpClient: MovieHTTPClient()))
         let movieNav = UINavigationController(rootViewController: movieVC)
         movieNav.tabBarItem = UITabBarItem(title: "電影",
-                                                   image: UIImage(systemName: "film.circle.fill"),
-                                                   tag: 2)
-
-    
-        viewControllers = [homeNav, tipCalculatorNav, movieNav]
+                                                   image: UIImage(systemName: "movieclapper.fill"),
+                                                   tag: 1)
+        viewControllers = [homeNav, movieNav]
     }
-    
 }

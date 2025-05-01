@@ -12,13 +12,13 @@ import SDWebImage
 
 class MovieReviewCollectionView: UIView {
     
-    private var reviews: [Review] = [] {
-        didSet { collectionView.reloadData() }
-    }
-    
     private var cancellables = Set<AnyCancellable>()
     private let httpClient = MovieHTTPClient()
     private var movieId: Int!
+    
+    private var reviews: [Review] = [] {
+        didSet { collectionView.reloadData() }
+    }
     
     let collectionView: UICollectionView
     
@@ -90,7 +90,7 @@ class MovieReviewCollectionView: UIView {
     required init?(coder: NSCoder) {
         fatalError()
     }
-
+    
 }
 
 extension MovieReviewCollectionView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -100,12 +100,16 @@ extension MovieReviewCollectionView: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieReviewCollectionCell",
-                                          for: indexPath) as! MovieReviewCollectionCell
+                                                      for: indexPath) as! MovieReviewCollectionCell
         let review = reviews[indexPath.item]
         cell.authorLabel.text = review.author.isEmpty ? "Anonymous" : review.author
         cell.contentLabel.text = review.content
         
         return cell
     }
-
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+    }
+    
 }

@@ -21,9 +21,30 @@ struct ReviewResponse: Codable {
     }
 }
 
+
+struct AuthorDetails: Codable {
+    let name: String
+    let username: String
+    let avatarPath: String?
+    let rating: Double?
+
+    enum CodingKeys: String, CodingKey {
+        case name, username
+        case avatarPath = "avatar_path"
+        case rating
+    }
+}
+
 struct Review: Codable {
     let author: String
+    let authorDetails: AuthorDetails
     let content: String
     let id: String
     let url: String
+
+    enum CodingKeys: String, CodingKey {
+        case author
+        case authorDetails = "author_details"
+        case content, id, url
+    }
 }
