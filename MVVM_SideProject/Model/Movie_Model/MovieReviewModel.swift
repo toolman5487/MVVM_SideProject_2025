@@ -27,7 +27,7 @@ struct AuthorDetails: Codable {
     let username: String
     let avatarPath: String?
     let rating: Double?
-
+    
     enum CodingKeys: String, CodingKey {
         case name, username
         case avatarPath = "avatar_path"
@@ -41,10 +41,14 @@ struct Review: Codable {
     let content: String
     let id: String
     let url: String
+    let createdAt: String
+    let updatedAt: String
 
     enum CodingKeys: String, CodingKey {
         case author
         case authorDetails = "author_details"
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
         case content, id, url
     }
 }

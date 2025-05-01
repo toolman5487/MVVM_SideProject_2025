@@ -8,8 +8,20 @@
 import Foundation
 import UIKit
 import SnapKit
+import SDWebImage
 
 class ReviewDetailViewController: UIViewController {
+    
+    private let review: Review
+    
+    init(review: Review) {
+        self.review = review
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private let authorLabel: UILabel = {
         let label = UILabel()
@@ -18,7 +30,7 @@ class ReviewDetailViewController: UIViewController {
         return label
     }()
     
-    private let avatarImageView: UIImageView = {
+    private let avatarImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.layer.cornerRadius = 20
@@ -48,7 +60,7 @@ class ReviewDetailViewController: UIViewController {
     }()
     
     lazy var avatarStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [avatarImageView, authorLabel])
+        let stack = UIStackView(arrangedSubviews: [avatarImage, authorLabel])
         stack.axis = .vertical
         stack.spacing = 8
         stack.alignment = .center
@@ -83,6 +95,9 @@ class ReviewDetailViewController: UIViewController {
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
             make.leading.trailing.equalToSuperview().inset(16)
         }
+        avatarImage.snp.makeConstraints { make in
+            make.height.width.equalTo(40)
+        }
         
         contentStack.snp.makeConstraints { make in
             make.top.equalTo(avatarStack.snp.bottom).offset(16)
@@ -91,8 +106,28 @@ class ReviewDetailViewController: UIViewController {
         }
     }
     
+    func configure(){
+        authorLabel.text = review.author.isEmpty ? "Anonymous" : review.author
+        contentLabel.text = review.content
+        ratingLabel.text = "Rating: \(review.authorDetails.rating ?? 0)"
+        if let date = ISO8601DateFormatter().date(from: review.createdAt) {
+            createdAtLabel.text = DateFormatter.localizedString(
+                from: date,
+                dateStyle: .medium,
+                timeStyle: .short
+            )
+        } else {
+            createdAtLabel.text = review.createdAt
+        }
+        if let avatarPath = review.authorDetails.avatarPath,
+           let url = URL(string: "https://image.tmdb.org/t/p/w200\(avatarPath)") {
+            avatarImage.sd_setImage(with: url)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         layout()
+        configure()
     }
 }

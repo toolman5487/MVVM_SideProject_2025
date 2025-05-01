@@ -19,6 +19,7 @@ class MovieReviewCollectionView: UIView {
     private var reviews: [Review] = [] {
         didSet { collectionView.reloadData() }
     }
+    var onReviewSelected: ((Review) -> Void)?
     
     let collectionView: UICollectionView
     
@@ -109,7 +110,11 @@ extension MovieReviewCollectionView: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        let review = reviews[indexPath.item]
+        if let callback = onReviewSelected {
+            callback(review)
+        }
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
     
 }

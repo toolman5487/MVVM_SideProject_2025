@@ -15,6 +15,7 @@ class MovieDetailView:UIViewController{
     
     private let movieReviewView = MovieReviewCollectionView()
     
+    
     private let viewModel:MovieDetailViewModel
     private var cancellables = Set<AnyCancellable>()
     
@@ -233,12 +234,14 @@ class MovieDetailView:UIViewController{
             .compactMap { $0 }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] detail in
-                self?.configure(with: detail)
+                self?.movieDetailConfigure(with: detail)
             }
             .store(in: &cancellables)
+        
+        
     }
     
-    private func configure(with detail: MovieDetailModel) {
+    private func movieDetailConfigure(with detail: MovieDetailModel) {
         titleLabel.text = detail.title
         let year = String(detail.releaseDate.prefix(4))
         releaseRuntimeLabel.text = "\(year) | \(detail.runtime) 分鐘"
@@ -277,6 +280,18 @@ class MovieDetailView:UIViewController{
         productionLabel.attributedText = makeStats(title: "電影公司", value: comps)
         
         movieReviewView.configure(with: detail.id)
+    }
+    private func reviewConfigure() {
+        movieReviewView.onReviewSelected = {  [weak self] review in
+            guard let self = self else { return }
+            let sheet = ReviewDetailViewController(review: review)
+            sheet.modalPresentationStyle = .pageSheet
+            if let pc = sheet.sheetPresentationController {
+                pc.detents = [.medium(), .large()]
+                pc.prefersGrabberVisible = true
+            }
+            self.present(sheet, animated: true)
+        }
     }
     
     // MARK: - layout -
@@ -350,5 +365,6 @@ class MovieDetailView:UIViewController{
         layoutUI()
         viewModel.fetchDetail()
         bindViewModel()
+        reviewConfigure()
     }
 }
