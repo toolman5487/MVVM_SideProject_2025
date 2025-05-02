@@ -287,7 +287,7 @@ class MovieDetailView:UIViewController{
             let sheet = ReviewDetailViewController(review: review)
             sheet.modalPresentationStyle = .pageSheet
             if let pc = sheet.sheetPresentationController {
-                pc.detents = [.medium(), .large()]
+                pc.detents = [.large()]
                 pc.prefersGrabberVisible = true
             }
             self.present(sheet, animated: true)

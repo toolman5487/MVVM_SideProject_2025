@@ -33,7 +33,6 @@ class ReviewDetailViewController: UIViewController {
     private let avatarImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
-        image.layer.cornerRadius = 20
         image.clipsToBounds = true
         return image
     }()
@@ -56,28 +55,16 @@ class ReviewDetailViewController: UIViewController {
         let label = UILabel()
         label.font = ThemeFont.regular(ofSize: 12)
         label.textColor = .label
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
     
-    lazy var avatarStack: UIStackView = {
+    lazy var headerStack:UIStackView = {
         let stack = UIStackView(arrangedSubviews: [avatarImage, authorLabel])
         stack.axis = .vertical
-        stack.spacing = 8
         stack.alignment = .center
-        stack.distribution = .fillProportionally
-        stack.backgroundColor = .secondarySystemBackground
-        stack.layer.cornerRadius = 10
-        stack.layer.masksToBounds = true
-        stack.isLayoutMarginsRelativeArrangement = true
-        return stack
-    }()
-    
-    lazy var contentStack:UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [createdAtLabel, ratingLabel, contentLabel])
-        stack.axis = .vertical
         stack.spacing = 8
-        stack.alignment = .center
-        stack.distribution = .fillEqually
         stack.backgroundColor = .secondarySystemBackground
         stack.layer.cornerRadius = 10
         stack.layer.masksToBounds = true
@@ -86,30 +73,57 @@ class ReviewDetailViewController: UIViewController {
         return stack
     }()
     
+    lazy var containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .secondarySystemBackground
+        view.layer.cornerRadius = 10
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
     private func layout() {
         view.backgroundColor = .systemBackground
-        view.addSubview(avatarStack)
-        view.addSubview(contentStack)
-        
-        avatarStack.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
-            make.leading.trailing.equalToSuperview().inset(16)
+        view.addSubview(headerStack)
+        headerStack.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(96)
         }
         avatarImage.snp.makeConstraints { make in
-            make.height.width.equalTo(40)
+            make.height.width.equalTo(44)
+        }
+        avatarImage.layer.cornerRadius = 22
+        
+        view.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
+            make.top.equalTo(headerStack.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide).inset(16)
+        }
+
+        containerView.addSubview(ratingLabel)
+        ratingLabel.snp.makeConstraints { make in
+            make.top.leading.equalToSuperview().inset(8)
         }
         
-        contentStack.snp.makeConstraints { make in
-            make.top.equalTo(avatarStack.snp.bottom).offset(16)
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide.snp.bottom).inset(16)
+        containerView.addSubview(createdAtLabel)
+        createdAtLabel.snp.makeConstraints { make in
+            make.top.equalTo(ratingLabel.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview().inset(8)
         }
+        containerView.addSubview(contentLabel)
+        contentLabel.snp.makeConstraints { make in
+            make.top.equalTo(createdAtLabel.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview().inset(8)
+            make.bottom.equalToSuperview().inset(8)
+        }
+        
     }
     
     func configure(){
         authorLabel.text = review.author.isEmpty ? "Anonymous" : review.author
         contentLabel.text = review.content
         ratingLabel.text = "Rating: \(review.authorDetails.rating ?? 0)"
+        
         if let date = ISO8601DateFormatter().date(from: review.createdAt) {
             createdAtLabel.text = DateFormatter.localizedString(
                 from: date,
@@ -119,9 +133,12 @@ class ReviewDetailViewController: UIViewController {
         } else {
             createdAtLabel.text = review.createdAt
         }
+        
         if let avatarPath = review.authorDetails.avatarPath,
            let url = URL(string: "https://image.tmdb.org/t/p/w200\(avatarPath)") {
-            avatarImage.sd_setImage(with: url)
+            avatarImage.sd_setImage(with: url, placeholderImage: UIImage(systemName: "person.circle.fill"))
+        } else {
+            avatarImage.image = UIImage(systemName: "person.circle.fill")
         }
     }
     
