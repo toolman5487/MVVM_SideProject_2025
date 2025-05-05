@@ -44,7 +44,7 @@ class SigninView:UIViewController{
         textField.layer.cornerRadius = 10
         textField.layer.masksToBounds = true
         textField.isSecureTextEntry = true
-        textField.text = "willy861031"
+        textField.text = ""
         return textField
     }()
     
